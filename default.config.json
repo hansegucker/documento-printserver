@@ -1,0 +1,8 @@
+{
+  "vendor": "0416",
+  "product": "5011",
+  "url": "http://127.0.0.1:8000",
+  "username": "admin",
+  "password": "admin",
+  "barcode_printer": "QL-500"
+}
