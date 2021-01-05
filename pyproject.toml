@@ -9,7 +9,7 @@ license = "GPL-3.0-or-later"
 python = "^3.6"
 python-escpos = "^3.0a8"
 python-barcode = "^0.13.1"
-requests = "^2.25.0"
+requests = "^2.25.1"
 
 [tool.poetry.dev-dependencies]
 
