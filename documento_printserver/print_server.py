@@ -1,9 +1,8 @@
 import json
-import subprocess
+import subprocess  # noqa
 import time
 
 import requests
-
 from barcode import Code128
 from barcode.writer import ImageWriter
 from escpos.printer import Usb
@@ -81,10 +80,7 @@ def print_server():
         # Get auth token
         r = requests.post(
             login_url,
-            json={
-                "username": config.get("username"),
-                "password": config.get("password"),
-            },
+            json={"username": config.get("username"), "password": config.get("password"),},
         )
         token = r.json()["token"]
         headers = {"Authorization": f"Token {token}"}
@@ -115,11 +111,11 @@ def print_server():
                     f.write(r.content)
 
                 # Send barcode label to printer
-                subprocess.Popen(
+                subprocess.Popen(  # noqa
                     ["lp", "-d", config.get("barcode_printer"), "barcode-tmp.pdf"],
                     stderr=subprocess.DEVNULL,
                     stdout=subprocess.DEVNULL,
-                )
+                )  # noqa
                 printed = True
 
             elif report == "info_page":
@@ -128,9 +124,7 @@ def print_server():
 
             # Mark print job as printed
             if printed:
-                r3 = requests.post(
-                    f"{jobs_url}{job_id}/mark_as_printed/", headers=headers
-                )
+                r3 = requests.post(f"{jobs_url}{job_id}/mark_as_printed/", headers=headers)
 
         time.sleep(3)
 
