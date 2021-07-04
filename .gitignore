@@ -155,8 +155,8 @@ debhelper-build-stamp
 /tutorial-1/packageroot/usr
 
 requirements.txt
-debian/documento-client
-debian/documento-client.*.debhelper
+debian/documento-printserver
+debian/documento-printserver.*.debhelper
 debian/files
 
 barcode-tmp.pdf
