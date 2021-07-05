@@ -1,4 +1,3 @@
-import json
 import subprocess  # noqa
 import time
 
@@ -7,13 +6,11 @@ from barcode import Code128
 from barcode.writer import ImageWriter
 from escpos.printer import Usb
 
-# Load config
-with open("config.json") as f:
-    config = json.load(f)
+from .config import settings
 
 # Read vendor and product IDs from config and setup printer
-raw_vendor = config.get("vendor")
-raw_product = config.get("product")
+raw_vendor = settings.get("printer.vendor")
+raw_product = settings.get("printer.product")
 vendor = int(f"0x{raw_vendor}", 16)
 product = int(f"0x{raw_product}", 16)
 print(f"Printer: Vendor: {raw_vendor} ({vendor}); Product: {raw_product} ({product})")
@@ -69,7 +66,7 @@ def print_info(document, categories=None):
     printer.control("LF")
 
 
-base_url = config.get("url")
+base_url = settings.get("server.url")
 login_url = base_url + "/api/auth/login/"
 jobs_url = base_url + "/api/print_jobs/"
 categories_url = base_url + "/api/categories/"
@@ -80,7 +77,10 @@ def print_server():
         # Get auth token
         r = requests.post(
             login_url,
-            json={"username": config.get("username"), "password": config.get("password"),},
+            json={
+                "username": settings.get("server.username"),
+                "password": settings.get("server.password"),
+            },
         )
         token = r.json()["token"]
         headers = {"Authorization": f"Token {token}"}
@@ -112,7 +112,7 @@ def print_server():
 
                 # Send barcode label to printer
                 subprocess.Popen(  # noqa
-                    ["lp", "-d", config.get("barcode_printer"), "barcode-tmp.pdf"],
+                    ["lp", "-d", settings.get("barcode_printer.name"), "barcode-tmp.pdf"],
                     stderr=subprocess.DEVNULL,
                     stdout=subprocess.DEVNULL,
                 )  # noqa

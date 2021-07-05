@@ -1,0 +1,11 @@
+[printer]
+vendor = "0416"
+product = "5011"
+
+[barcode_printer]
+name = "QL-500"
+
+[server]
+url = "http://127.0.0.1:8000"
+username = "admin"
+password = "admin"

@@ -1,1 +1,2 @@
 99-escpos.rules etc/udev/rules.d
+settings.toml etc/documento/printserver
