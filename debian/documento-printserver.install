@@ -1,1 +1,1 @@
-opt/venvs/documento-printserver/bin/documento-printserver usr/bin/documento-printserver
+99-escpos.rules etc/udev/rules.d
