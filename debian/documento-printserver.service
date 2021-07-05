@@ -1,0 +1,9 @@
+[Unit]
+Description=Documento Printserver
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/documento-printserver
+
+[Install]
+WantedBy=multi-user.target

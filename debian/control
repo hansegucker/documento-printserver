@@ -2,7 +2,7 @@ Source: documento-printserver
 Section: python
 Priority: extra
 Maintainer: Jonathan Weth <dev@jonathanweth.de>
-Build-Depends: debhelper (>= 10), python3, dh-virtualenv (>= 1.0),
+Build-Depends: debhelper (>= 10), dh-systemd (>=1.5), python3, dh-virtualenv (>= 1.0),
     python3-setuptools, python3-pip, python3-dev, libffi-dev
 Standards-Version: 4.5.0
 Homepage: https://edugit.org/documento/documento-printserver
