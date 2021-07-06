@@ -1,5 +1,7 @@
+import os
 import subprocess  # noqa
 import time
+from tempfile import TemporaryDirectory
 
 import requests
 from barcode import Code128
@@ -110,18 +112,22 @@ def print_server():
             if report == "barcode_label":
                 label_url = base_url + document["barcode_label"]
 
-                # Download barcode label
-                r = requests.get(label_url)
-                with open("barcode-tmp.pdf", "wb") as f:
-                    f.write(r.content)
-
-                # Send barcode label to printer
-                subprocess.Popen(  # noqa
-                    ["lp", "-d", settings.get("barcode_printer.name"), "barcode-tmp.pdf"],
-                    stderr=subprocess.DEVNULL,
-                    stdout=subprocess.DEVNULL,
-                )  # noqa
-                printed = True
+                with TemporaryDirectory() as temp_dir:
+                    # Download barcode label
+                    r = requests.get(label_url)
+                    filename = os.path.join(temp_dir, "barcode-tmp.pdf")
+                    print(filename)
+                    with open(filename, "wb") as f:
+                        f.write(r.content)
+                    print(["lp", "-d", settings.get("barcode_printer.name"), filename])
+                    # Send barcode label to printer
+                    p = subprocess.Popen(  # noqa
+                        ["lp", "-d", settings.get("barcode_printer.name"), filename],
+                        stderr=subprocess.DEVNULL,
+                        stdout=subprocess.DEVNULL,
+                    )  # noqa
+                    p.wait()
+                    printed = True
 
             elif report == "info_page":
                 print_info(document, categories)
