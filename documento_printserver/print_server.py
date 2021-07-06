@@ -74,19 +74,24 @@ categories_url = base_url + "/api/categories/"
 
 def print_server():
     while True:
-        # Get auth token
-        r = requests.post(
-            login_url,
-            json={
-                "username": settings.get("server.username"),
-                "password": settings.get("server.password"),
-            },
-        )
-        token = r.json()["token"]
-        headers = {"Authorization": f"Token {token}"}
+        try:
+            # Get auth token
+            r = requests.post(
+                login_url,
+                json={
+                    "username": settings.get("server.username"),
+                    "password": settings.get("server.password"),
+                },
+            )
+            token = r.json()["token"]
+            headers = {"Authorization": f"Token {token}"}
 
-        # Fetch print jobs
-        jobs = requests.get(jobs_url, headers=headers).json()
+            # Fetch print jobs
+            jobs = requests.get(jobs_url, headers=headers).json()
+        except requests.exceptions.ConnectionError:
+            print("Fetching latest jobs failed due to a connection error.")
+            time.sleep(3)
+            continue
 
         # Fetch categories
         categories = requests.get(categories_url, headers=headers).json()
